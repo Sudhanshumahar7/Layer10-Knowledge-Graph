@@ -38,6 +38,11 @@ EDGE_HIGHLIGHT  = "#b8955a"
 def load_graph() -> nx.DiGraph:
     with open(GRAPH_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
+    
+    # Robustness: Some NetworkX versions use "links", others use "edges"
+    if "links" not in data and "edges" in data:
+        data["links"] = data.pop("edges")
+        
     return nx.node_link_graph(data)
 
 
