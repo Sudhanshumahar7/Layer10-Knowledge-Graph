@@ -80,3 +80,29 @@ def node_detail(node_id: str):
     if detail is None:
         raise HTTPException(status_code=404, detail=f"Node '{node_id}' not found.")
     return detail
+
+# ── Static Files & SPA Routing ────────────────────────────────────────────────
+# In production/docker, the React build folder will be at /app/frontend/build
+FRONTEND_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend", "build")
+
+# Serve the 'static' folder inside 'build' for CSS/JS
+if os.path.exists(os.path.join(FRONTEND_PATH, "static")):
+    app.mount("/static", StaticFiles(directory=os.path.join(FRONTEND_PATH, "static")), name="static")
+
+@app.get("/{full_path:path}")
+async def serve_react(full_path: str):
+    """
+    Catch-all route. If the file exists in the build folder, serve it.
+    Otherwise, serve index.html for React Router to handle the path.
+    """
+    file_path = os.path.join(FRONTEND_PATH, full_path)
+    if os.path.isfile(file_path):
+        return FileResponse(file_path)
+    
+    # Fallback to index.html for SPA
+    index_path = os.path.join(FRONTEND_PATH, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    
+    # If build directory doesn't exist yet (local dev without build), return 404
+    return {"detail": "Frontend build files not found. Run 'npm run build' in the frontend directory."}
