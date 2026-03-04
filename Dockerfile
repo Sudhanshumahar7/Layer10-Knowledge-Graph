@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy backend and root requirements
 COPY backend/requirements.txt ./backend/
-RUN pip install --no-cache-dir -r ./backend/requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r ./backend/requirements.txt
 
 # Copy backend code, data, and built frontend
 COPY backend/ ./backend/
