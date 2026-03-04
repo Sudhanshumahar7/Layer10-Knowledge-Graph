@@ -1,0 +1,8 @@
+{
+  "short_name": "Layer10",
+  "name": "Layer10 Knowledge Graph",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0d0d0f",
+  "background_color": "#0d0d0f"
+}
