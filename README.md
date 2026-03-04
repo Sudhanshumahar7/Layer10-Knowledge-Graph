@@ -1,3 +1,13 @@
+---
+title: Layer10 Organizational Knowledge Graph
+emoji: 🕸️
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Layer10 · Organizational Knowledge Graph
 
 A modern, full-stack system designed to capture, deduplicate, and visualize organizational memory (entities, decisions, and relationships) from GitHub project history.
