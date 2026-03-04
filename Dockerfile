@@ -29,6 +29,8 @@ COPY --from=frontend-builder /app/frontend/build ./frontend/build
 # Expose port (Hugging Face uses 7860)
 EXPOSE 7860
 
+ENV PYTHONUNBUFFERED=1
+
 # Run with uvicorn on all interfaces
-# Note: We run from root so BASE_DIR in main.py works correctly
-CMD ["python", "-m", "uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "7860"]
+

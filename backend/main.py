@@ -16,6 +16,8 @@ from graph_service import (
 )
 
 app = FastAPI(title="Layer10 Knowledge Graph API", version="1.0.0")
+print("--- Backend Initialization Started ---")
+
 
 # Allow the React dev server (and any origin) to call the API
 app.add_middleware(
