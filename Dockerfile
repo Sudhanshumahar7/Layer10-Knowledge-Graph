@@ -4,8 +4,6 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
-# Set production URL to empty for relative calls
-ENV REACT_APP_API_URL=""
 RUN npm run build
 
 # --- Stage 2: Final Image ---
