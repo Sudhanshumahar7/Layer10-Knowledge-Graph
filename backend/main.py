@@ -18,6 +18,25 @@ from graph_service import (
 app = FastAPI(title="Layer10 Knowledge Graph API", version="1.0.0")
 print("--- Backend Initialization Started ---")
 
+import threading
+import time
+import urllib.request
+
+def keep_alive_ping():
+    """Background thread to ping the server every 30s to help prevent Render sleep."""
+    while True:
+        time.sleep(30)
+        try:
+            # Ping our own API to simulate activity
+            urllib.request.urlopen("http://127.0.0.1:8000/api/graph/meta")
+        except Exception:
+            pass
+
+@app.on_event("startup")
+def startup_event():
+    print("Starting keep-alive background task (30s interval)...")
+    threading.Thread(target=keep_alive_ping, daemon=True).start()
+
 
 # Allow the React dev server (and any origin) to call the API
 app.add_middleware(

@@ -1,0 +1,94 @@
+[
+  {
+    "question": "What are the rules and requirements for using the @tool decorator in LangChain?",
+    "retrieved_context_pack": {
+      "central_entities": [
+        {
+          "id": "tool_decorator",
+          "display_name": "tool decorator (response_format=\"content_and_artifact\")",
+          "type": "Artifact"
+        },
+        {
+          "id": "requirement_str_str",
+          "display_name": "Function must be of type (str) -> str requirement",
+          "type": "Topic"
+        },
+        {
+          "id": "requirement_docstring",
+          "display_name": "Function must have a docstring requirement",
+          "type": "Topic"
+        }
+      ],
+      "supported_claims": [
+        {
+          "source": "tool_decorator",
+          "relationship": "Requires",
+          "target": "requirement_str_str",
+          "evidence": [
+            {
+              "quote": "If I am not wrong. If we are using @tool decorator then our function must be of type (str) -> str",
+              "source_url": "https://github.com/langchain-ai/langchain/issues/31405"
+            }
+          ]
+        },
+        {
+          "source": "tool_decorator",
+          "relationship": "Requires",
+          "target": "requirement_docstring",
+          "evidence": [
+            {
+              "quote": "Also, it must have a doc string.",
+              "source_url": "https://github.com/langchain-ai/langchain/issues/31405"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "question": "Is there an issue with the reasoning_content field when streaming responses?",
+    "retrieved_context_pack": {
+      "central_entities": [
+        {
+          "id": "reasoning_content_field",
+          "display_name": "reasoning_content field",
+          "type": "Topic"
+        },
+        {
+          "id": "deepseek_streaming_responses",
+          "display_name": "DeepSeek streaming responses",
+          "type": "Topic"
+        },
+        {
+          "id": "chatopenai_class",
+          "display_name": "ChatOpenAI class",
+          "type": "Artifact"
+        }
+      ],
+      "supported_claims": [
+        {
+          "source": "chatopenai_class",
+          "relationship": "Fails_To_Parse",
+          "target": "reasoning_content_field",
+          "evidence": [
+            {
+              "quote": "When using deepseek-reasoner through the ChatOpenAI class in LangChain, streaming responses fail to yield the reasoning_content returned by the DeepSeek API.",
+              "source_url": "https://github.com/langchain-ai/langchain/issues/35006"
+            }
+          ]
+        },
+        {
+          "source": "reasoning_content_field",
+          "relationship": "Related_To",
+          "target": "deepseek_streaming_responses",
+          "evidence": [
+            {
+              "quote": "The DeepSeek API documentation states that reasoning content is returned via the delta.reasoning_content field in the SSE stream",
+              "source_url": "https://github.com/langchain-ai/langchain/issues/35006"
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
