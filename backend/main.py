@@ -6,7 +6,7 @@ import os
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse
 
-from .graph_service import (
+from graph_service import (
     get_meta,
     build_filtered_subgraph,
     render_pyvis_html,

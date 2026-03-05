@@ -12,18 +12,18 @@ import { getAnalytics } from '../api/api';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 const TYPE_COLORS = {
-    Person: '#c87d50',
-    Topic: '#5888b8',
-    Artifact: '#4e9e72',
-    Decision: '#b85858',
-    Unknown: '#6e6e78',
+    Person:     '#ff2244',
+    Topic:      '#00e5ff',
+    Artifact:   '#b400ff',
+    Decision:   '#ffe100',
+    Unknown:    '#3a5570',
 };
 const TYPE_ICONS = {
-    Person: '👤',
-    Topic: '💡',
-    Artifact: '📦',
-    Decision: '⚖️',
-    Unknown: '❓',
+    Person:     '👤',
+    Topic:      '💡',
+    Artifact:   '📦',
+    Decision:   '⚖️',
+    Unknown:    '❓',
 };
 
 const CHART_OPTS = {
@@ -32,12 +32,20 @@ const CHART_OPTS = {
     plugins: { legend: { display: false } },
     scales: {
         x: {
-            ticks: { color: '#5e5e68', font: { family: 'Syne, sans-serif', size: 11 } },
-            grid: { color: '#1e1e22' },
+            ticks: {
+                color: '#6b8fa8',
+                font: { family: "'Share Tech Mono', monospace", size: 10 },
+            },
+            grid: { color: 'rgba(0, 180, 255, 0.06)' },
+            border: { color: 'rgba(0, 180, 255, 0.12)' },
         },
         y: {
-            ticks: { color: '#5e5e68', font: { family: 'IBM Plex Mono, monospace', size: 10 } },
-            grid: { color: '#1e1e22' },
+            ticks: {
+                color: '#6b8fa8',
+                font: { family: "'Share Tech Mono', monospace", size: 10 },
+            },
+            grid: { color: 'rgba(0, 180, 255, 0.06)' },
+            border: { color: 'rgba(0, 180, 255, 0.12)' },
         },
     },
 };
@@ -58,35 +66,34 @@ export default function Analytics() {
         );
     }
 
-    // Entity type chart data
     const typeLabels = Object.keys(data.type_counts);
     const typeDataset = {
         labels: typeLabels,
         datasets: [{
             data: typeLabels.map(t => data.type_counts[t]),
-            backgroundColor: typeLabels.map(t => TYPE_COLORS[t] || '#b8955a'),
-            borderRadius: 4,
+            backgroundColor: typeLabels.map(t => (TYPE_COLORS[t] || '#00b4ff') + '66'),
+            borderColor:     typeLabels.map(t => TYPE_COLORS[t] || '#00b4ff'),
+            borderWidth: 1,
+            borderRadius: 0,
             borderSkipped: false,
         }],
     };
 
-    // Relationship chart data
     const relLabels = Object.keys(data.top_rel_counts).map(r => r.replace(/_/g, ' '));
     const relDataset = {
         labels: relLabels,
         datasets: [{
             data: Object.values(data.top_rel_counts),
-            backgroundColor: '#5888b866',
-            borderColor: '#5888b8',
+            backgroundColor: 'rgba(180, 0, 255, 0.25)',
+            borderColor:     '#b400ff',
             borderWidth: 1,
-            borderRadius: 4,
+            borderRadius: 0,
             borderSkipped: false,
         }],
     };
 
     return (
         <div>
-            {/* Two charts side-by-side */}
             <div className="analytics-grid">
                 <div className="analytics-card">
                     <div className="sec-label">Entity Type Distribution</div>
@@ -102,7 +109,6 @@ export default function Analytics() {
                 </div>
             </div>
 
-            {/* Top-15 nodes table */}
             <div className="sec-label">Top 15 Most-Connected Nodes</div>
             <table className="node-table">
                 <thead>
@@ -117,9 +123,12 @@ export default function Analytics() {
                 <tbody>
                     {data.top_nodes.map(n => (
                         <tr key={n.id}>
-                            <td style={{ color: 'var(--text)' }}>{n.name}</td>
+                            <td>{n.name}</td>
                             <td>
-                                <span style={{ color: TYPE_COLORS[n.type] || 'var(--text-dim)' }}>
+                                <span style={{
+                                    color: TYPE_COLORS[n.type] || 'var(--text-mid)',
+                                    textShadow: `0 0 6px ${TYPE_COLORS[n.type] || 'transparent'}`,
+                                }}>
                                     {TYPE_ICONS[n.type] || '❓'} {n.type}
                                 </span>
                             </td>

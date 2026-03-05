@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { getAllNodes, getNodeDetail } from '../api/api';
 
 export default function NodeExplorer() {
-    const [nodeList, setNodeList] = useState([]);
-    const [chosenId, setChosenId] = useState('');
+    const [nodeList, setNodeList]     = useState([]);
+    const [chosenId, setChosenId]     = useState('');
     const [nodeDetail, setNodeDetail] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading]       = useState(false);
 
-    // Load all node labels on mount
     useEffect(() => {
         getAllNodes()
             .then(list => {
@@ -18,7 +17,6 @@ export default function NodeExplorer() {
             .catch(console.error);
     }, []);
 
-    // Load detail for selected node
     useEffect(() => {
         if (!chosenId) return;
         setLoading(true);
@@ -40,7 +38,6 @@ export default function NodeExplorer() {
                 </select>
             </div>
 
-            {/* Loading state */}
             {loading && (
                 <div className="loading" style={{ height: 200 }}>
                     <div className="spinner" />
@@ -48,7 +45,6 @@ export default function NodeExplorer() {
                 </div>
             )}
 
-            {/* Node detail card */}
             {nodeDetail && !loading && (
                 <>
                     <div className="node-card">
@@ -57,7 +53,7 @@ export default function NodeExplorer() {
                                 className="node-dot"
                                 style={{
                                     background: nodeDetail.color,
-                                    boxShadow: `0 0 8px ${nodeDetail.color}66`,
+                                    boxShadow: `0 0 10px ${nodeDetail.color}`,
                                 }}
                             />
                             <h3>{nodeDetail.icon} {nodeDetail.display_name}</h3>
@@ -71,7 +67,6 @@ export default function NodeExplorer() {
                         </div>
                     </div>
 
-                    {/* In / Out edge columns */}
                     <div className="edge-columns">
                         {/* Incoming */}
                         <div>
@@ -82,7 +77,9 @@ export default function NodeExplorer() {
                                 ) : (
                                     nodeDetail.in_edges.map((e, i) => (
                                         <details key={i} className="edge-expander">
-                                            <summary>{e.source_name} → {e.relationship.replace(/_/g, ' ')}</summary>
+                                            <summary>
+                                                {e.source_name} → {e.relationship.replace(/_/g, ' ')}
+                                            </summary>
                                             <div className="edge-body">
                                                 {e.quote || 'No quote available.'}
                                                 {e.source_url && (
@@ -106,7 +103,9 @@ export default function NodeExplorer() {
                                 ) : (
                                     nodeDetail.out_edges.map((e, i) => (
                                         <details key={i} className="edge-expander">
-                                            <summary>{e.relationship.replace(/_/g, ' ')} → {e.target_name}</summary>
+                                            <summary>
+                                                {e.relationship.replace(/_/g, ' ')} → {e.target_name}
+                                            </summary>
                                             <div className="edge-body">
                                                 {e.quote || 'No quote available.'}
                                                 {e.source_url && (

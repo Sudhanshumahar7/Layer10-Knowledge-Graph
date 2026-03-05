@@ -32,4 +32,4 @@ The backend service for the Layer10 Knowledge Graph. It provides APIs for graph 
 
 ## Deployment
 
-The backend is configured for deployment on **Render.com** via the `render.yaml` found in the project root.
+The backend is configured for deployment on **Render.com**.

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const TYPE_COLORS = {
-    Person: '#c87d50',
-    Topic: '#5888b8',
-    Artifact: '#4e9e72',
-    Decision: '#b85858',
-    Unknown: '#6e6e78',
+    Person: '#ff2244',
+    Topic: '#00e5ff',
+    Artifact: '#b400ff',
+    Decision: '#ffe100',
+    Unknown: '#3a5570',
 };
 const TYPE_ICONS = {
     Person: '👤',
@@ -20,7 +20,6 @@ export default function GraphView({ graphUrl, meta, selectedTypes, selectedRels 
     const [loading, setLoading] = useState(false);
     const prevUrlRef = useRef(null);
 
-    // Reload iframe whenever graphUrl changes (with debounce)
     useEffect(() => {
         if (!graphUrl || graphUrl === prevUrlRef.current) return;
         prevUrlRef.current = graphUrl;
@@ -39,11 +38,11 @@ export default function GraphView({ graphUrl, meta, selectedTypes, selectedRels 
                 <span>Knowledge Graph</span>
                 {meta && (
                     <>
-                        <span style={{ color: 'var(--text-faint)' }}>·</span>
+                        <span style={{ color: 'var(--text-dim)' }}>·</span>
                         <b>{meta.node_count}</b><span>nodes</span>
-                        <span style={{ color: 'var(--text-faint)' }}>·</span>
+                        <span style={{ color: 'var(--text-dim)' }}>·</span>
                         <b>{meta.edge_count}</b><span>edges</span>
-                        <span style={{ color: 'var(--text-faint)' }}>·</span>
+                        <span style={{ color: 'var(--text-dim)' }}>·</span>
                         <span>filtered view</span>
                     </>
                 )}
@@ -52,18 +51,27 @@ export default function GraphView({ graphUrl, meta, selectedTypes, selectedRels 
             {/* Graph frame */}
             <div className="graph-frame">
                 {noNodes ? (
-                    <div className="loading" style={{ height: 670 }}>
+                    <div className="loading" style={{ height: '100%' }}>
                         <span>No nodes match the current filters.</span>
                     </div>
                 ) : !graphUrl ? (
-                    <div className="loading" style={{ height: 670 }}>
+                    <div className="loading" style={{ height: '100%' }}>
                         <div className="spinner" />
                         <span>Connecting to backend…</span>
                     </div>
                 ) : (
                     <>
                         {loading && (
-                            <div className="loading" style={{ height: 670, position: 'absolute', inset: 0, zIndex: 2, background: 'var(--bg)' }}>
+                            <div
+                                className="loading"
+                                style={{
+                                    height: '100%',
+                                    position: 'absolute',
+                                    inset: 0,
+                                    zIndex: 2,
+                                    background: 'var(--bg-void)',
+                                }}
+                            >
                                 <div className="spinner" />
                                 <span>Rendering graph…</span>
                             </div>
@@ -82,7 +90,10 @@ export default function GraphView({ graphUrl, meta, selectedTypes, selectedRels 
             <div className="legend-strip">
                 {Object.entries(TYPE_COLORS).map(([t, c]) => (
                     <div key={t} className="legend-item">
-                        <div className="legend-dot" style={{ background: c }} />
+                        <div
+                            className="legend-dot"
+                            style={{ background: c, boxShadow: `0 0 7px ${c}` }}
+                        />
                         {TYPE_ICONS[t]} {t}
                     </div>
                 ))}

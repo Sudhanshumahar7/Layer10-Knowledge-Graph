@@ -13,11 +13,11 @@ GRAPH_PATH = os.path.join(BASE_DIR, "data", "knowledge_graph.json")
 
 # ── Color / icon scheme ───────────────────────────────────────────────────────
 TYPE_COLORS: dict[str, str] = {
-    "Person":   "#c87d50",
-    "Topic":    "#5888b8",
-    "Artifact": "#4e9e72",
-    "Decision": "#b85858",
-    "Unknown":  "#6e6e78",
+    "Person":   "#FF9F1C",  # Vibrant Orange
+    "Topic":    "#3B82F6",  # Bright Blue
+    "Artifact": "#10B981",  # Emerald Green
+    "Decision": "#8B5CF6",  # Vibrant Purple
+    "Unknown":  "#9CA3AF",  # Light Gray
 }
 TYPE_ICONS: dict[str, str] = {
     "Person":   "👤",
@@ -28,9 +28,9 @@ TYPE_ICONS: dict[str, str] = {
 }
 
 GRAPH_BG        = "#0d0d0f"
-GRAPH_FONT      = "#c8c4bc"
-EDGE_COLOR      = "#2a2a32"
-EDGE_HIGHLIGHT  = "#b8955a"
+GRAPH_FONT      = "#F3F4F6"
+EDGE_COLOR      = "#4B5563"
+EDGE_HIGHLIGHT  = "#F59E0B"
 
 
 # ── Graph loading ─────────────────────────────────────────────────────────────
@@ -40,8 +40,10 @@ def load_graph() -> nx.DiGraph:
         data = json.load(f)
     
     # Robustness: Some NetworkX versions use "links", others use "edges"
-    if "links" not in data and "edges" in data:
-        data["links"] = data.pop("edges")
+    if "links" in data and "edges" not in data:
+        data["edges"] = data["links"]
+    elif "edges" in data and "links" not in data:
+        data["links"] = data["edges"]
         
     return nx.node_link_graph(data)
 
@@ -94,8 +96,8 @@ def render_pyvis_html(
     gravity:    int  = -2000,
 ) -> str:
     net = Network(
-        height="670px",
-        width="100%",
+        height="100vh",
+        width="100vw",
         bgcolor=GRAPH_BG,
         font_color=GRAPH_FONT,
         directed=True,
