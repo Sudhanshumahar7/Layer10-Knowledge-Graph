@@ -1,4 +1,4 @@
-# Layer10 · Organizational Knowledge Graph
+# Layer10 · Knowledge Graph
 
 A modern, full-stack system designed to capture, deduplicate, and visualize organizational memory (entities, decisions, and relationships) from GitHub project history.
 
